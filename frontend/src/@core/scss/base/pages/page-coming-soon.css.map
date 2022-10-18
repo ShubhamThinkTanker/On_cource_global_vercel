@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AASA,qDAAqD;AAErD,AAAA,UAAU,CAAC;EACV,KAAK,EAAE,IAAI;CACX;;AAED,AAAA,gBAAgB,CAAC;EAChB,SAAS,EAAE,IAAI;CACf;;AACD,AAAA,KAAK,CAAC;EACL,SAAS,EAAE,IAAI;CACf",
+    "sources": [
+        "page-coming-soon.scss"
+    ],
+    "names": [],
+    "file": "page-coming-soon.css"
+}

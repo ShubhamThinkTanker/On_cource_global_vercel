@@ -1,0 +1,884 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+@import 'variables/variables';
+
+// admin and student's login, forgot password, register page custom design
+
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+// / Track /
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+// / Handle /
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 100px;
+}
+
+// / Handle on hover /
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+.main-color-btn {
+	background-color: $main-color !important;
+	border: 1px solid $main-color !important;
+	&:hover {
+		background-color: $white !important;
+		color: $main-color !important;
+	}
+}
+.white-color-btn {
+	background-color: $white;
+	border: 1px solid $main-color !important;
+	color: $main-color;
+	&:hover {
+		background-color: $main-color !important;
+		color: $white !important;
+		box-shadow: 0 8px 25px -12px $main-color;
+	}
+}
+.btn-primary {
+	background-color: $main-color !important;
+	border-color: $main-color !important;
+}
+.btn-primary:hover:not(.disabled):not(:disabled) {
+	box-shadow: 0 8px 25px -12px $main-color;
+}
+.link-text {
+	color: $link-text;
+}
+.form-control:focus {
+	border: 1px solid $main-color;
+}
+.input-group:not(.bootstrap-touchspin):focus-within .form-control,
+.input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+	border-color: $main-color;
+}
+.custom-control-Primary a {
+	color: $link-text;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+	border-color: $main-color;
+	background-color: $main-color;
+}
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+	border-color: $main-color;
+	background-color: $main-color;
+}
+
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+	background-color: $white !important;
+	color: $main-color !important;
+}
+// Required fields
+.required:after {
+	content: ' *';
+	color: red;
+}
+// exam options (card options)
+.btn-outline-primary {
+	color: $main-color;
+}
+.btn-outline-primary {
+	border: 1px solid $main-color !important;
+}
+.btn-outline-primary:hover:not(.disabled):not(:disabled) {
+	color: $white;
+	background-color: $main-color;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.btn-outline-primary:not(:disabled):not(.disabled):focus {
+	background-color: $white;
+	color: $main-color;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active a,
+.btn-outline-primary:not(:disabled):not(.disabled).active a,
+.btn-outline-primary:not(:disabled):not(.disabled):focus a {
+	color: $main-color !important;
+}
+
+// Nav bar css
+.main-menu.menu-light .navigation > li ul .active,
+.main-menu.menu-light .navigation > li.active > a {
+	background: $main-color;
+	box-shadow: 0 0 10px 1px rgb(202 0 2 / 7);
+}
+
+.breadcrumb-item a {
+	color: $main-color;
+}
+.text-primary {
+	color: $main-color !important;
+}
+.main-menu .navbar-header .navbar-brand .brand-logo img,
+.brand-logo img {
+	max-width: 156px;
+}
+.student-nav {
+	justify-content: flex-start;
+	background-color: $white;
+	padding: 16px;
+	box-shadow: 0 4px 6px 0 rgb(34 41 47 / 10%);
+}
+.student-nav .nav-item {
+	font-size: 1.1rem;
+	margin: 0 20px;
+}
+.student-nav .nav-item .nav-link {
+	color: $nav-text;
+	transition-delay: 0.2s;
+	&:hover {
+		color: $main-color;
+	}
+}
+.student-nav .brand-logo {
+	margin-right: 30px;
+}
+.student-nav .navbar-nav {
+	flex-direction: row;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+	color: $main-color;
+}
+.test-nav .nav-link svg {
+	margin-right: 6px;
+}
+.dropdown-item:active {
+	background-color: #ffd6d7;
+}
+// Student Dashboard
+.container {
+	padding: 0 1rem;
+}
+.welcome_text {
+	margin: 10px 0;
+}
+.student-dashboard {
+	padding: 7px 0;
+}
+.student-dashboard .match-height {
+	margin: 80px 0;
+}
+.animate__animated.animate__fadeIn {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+.main-footer {
+	background-color: $footer-color;
+	padding: 25px 0;
+	margin-top: auto;
+	a.list-group-item {
+		&:hover {
+			color: $main-color;
+		}
+	}
+	h4.list-group-item {
+		color: $sky-blue;
+	}
+	.address-col p a {
+		color: $sky-blue;
+	}
+}
+.list-group-item {
+	background-color: transparent !important;
+	border: transparent;
+	color: $white;
+}
+.student-dashboard .card {
+	margin: 2rem 0;
+}
+.card-image {
+	padding: 40px 20px 20px;
+	margin: auto;
+}
+.card-image img {
+	width: auto;
+}
+.student-dashboard .card-body {
+	padding: 21px 21px 40px 21px;
+	text-align: center;
+}
+.card-body button {
+	a {
+		color: $main-color;
+	}
+	&:hover {
+		box-shadow: 0 8px 25px -12px $main-color;
+		a {
+			color: $white;
+		}
+	}
+}
+.student-dashboard .card {
+	padding: 15px 20px;
+}
+.student-dashboard-bg {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50%;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -1000;
+	opacity: 0.4;
+}
+.dark-overlay::after {
+	content: '';
+	display: block;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	// background-color: $sky-blue;
+}
+// Footer changes
+.list-group-item svg {
+	width: 24px;
+	&:hover {
+		fill: $main-color;
+	}
+}
+.footer-social-icons {
+	align-items: center;
+}
+.second-col-address {
+	margin-top: 25px;
+}
+.footer-links-col {
+	width: 40%;
+}
+.address-col p:first-child {
+	margin-bottom: 0;
+	font-weight: 600;
+}
+.main-menu .navbar-header .navbar-brand .brand-logo img {
+	max-width: 156px;
+}
+.brand-logo {
+	align-items: center;
+	.upprep-logo {
+		height: fit-content;
+	}
+}
+.main-content {
+	margin-top: 60px;
+}
+.auth-wrapper {
+	background-color: $white;
+}
+.cursor-pointer {
+	cursor: pointer;
+}
+// Modal
+.modal .modal-header .close {
+	color: $white;
+	background-color: $main-color;
+	border: 1px solid $main-color;
+	&:hover {
+		background-color: $white;
+		color: $main-color;
+	}
+}
+.instruction-modal-body {
+	.list-group-item {
+		color: $dark-gray-font;
+	}
+}
+.modal-content {
+	.btn-primary a {
+		color: $white;
+		&:focus,
+		&:active,
+		&.active {
+			color: $main-color;
+		}
+	}
+}
+// Subject Tests page
+.subject-test-col {
+	padding: 20px;
+	.subject-test-title {
+		margin: 20px 0;
+	}
+	.practice-test-list-main {
+		box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+		border-radius: 0.428rem;
+		margin-bottom: 2rem;
+	}
+	.subject-card {
+		border: 1px solid $light-gray;
+		padding: 14.7px;
+		.avatar {
+			color: #ca0002;
+		}
+	}
+	.practice-test-list {
+		margin: 0;
+		border-radius: 0;
+		box-shadow: none;
+		border: 1px solid $light-gray;
+		.more-option {
+			margin: 0;
+			padding: 10px 0 10px 10px;
+			position: relative;
+			cursor: pointer;
+			.delete-btn {
+				position: absolute;
+				top: 36px;
+				left: -59px;
+				border-color: $main-color !important;
+				background-color: $light-gray;
+				opacity: 0;
+				transition: all 0.5s ease-in;
+				.list-group-item {
+					color: $dark-gray-font;
+					font-weight: 500;
+					display: flex;
+					svg {
+						margin-right: 8px;
+					}
+				}
+			}
+			&:hover {
+				.delete-btn {
+					display: block;
+					z-index: 1;
+					opacity: 1;
+				}
+			}
+		}
+	}
+	.more-option {
+		transition-delay: 1s;
+	}
+	button {
+		min-width: 129px;
+	}
+}
+.subject-test-icon {
+	color: $main-color;
+	background-color: transparent;
+	border: 1px solid $main-color;
+}
+
+.waves-effect {
+	.waves-ripple {
+		display: none;
+	}
+}
+// Test page
+
+.test-sidebar {
+	border-right: 1px solid #c3cad1;
+	height: calc(100vh - 218px);
+	background-color: $white;
+	overflow-y: scroll;
+	.test-status-btn {
+		width: 100%;
+		border-radius: 0;
+		background-color: $main-color !important;
+		color: $white !important;
+	}
+	.card {
+		margin-bottom: 0;
+		box-shadow: none;
+	}
+	.card-body {
+		padding: 0;
+	}
+	.list-group-item {
+		color: $main-color;
+		padding: 10px 15px;
+		border-bottom: 1px solid $main-color;
+		display: flex;
+		justify-content: space-between;
+		&:last-child {
+			border-bottom: 1px solid transparent;
+		}
+		svg {
+			margin-right: 2px;
+		}
+	}
+}
+
+.test-options {
+	.list-group-item {
+		color: $main-color;
+		display: flex;
+		justify-content: space-between;
+		span {
+			border: 1px solid $main-color;
+			padding: 2px 8px;
+		}
+	}
+}
+.test-footer {
+	padding: 10px 0;
+}
+.main-test-footer {
+	margin-top: auto;
+}
+.header-bar {
+	padding: 8px 16px;
+}
+.test-footer-bar {
+	padding: 8px 16px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	.list-group-item {
+		cursor: pointer;
+		padding: 0 15px;
+		&:first-child {
+			padding-left: 0;
+		}
+	}
+}
+.main-test-header {
+	.list-group-item {
+		border-right: 1px solid $white;
+		.dropdown-toggle {
+			background-color: transparent !important;
+			border: none;
+			padding: 2px;
+		}
+		&:active {
+			background-color: none;
+		}
+	}
+}
+.main-test-header .list-group-item:last-child {
+	border-right: 1px solid transparent;
+}
+.zoom-btngroup button {
+	padding: 3px;
+	svg:hover {
+		fill: none;
+	}
+}
+.main-test {
+	.row {
+		padding: 12px 30px;
+		height: 580px;
+	}
+	.main-test-col {
+		overflow-y: scroll;
+		height: 100%;
+	}
+}
+.test-pagination {
+	.pagination {
+		width: 80%;
+		flex-wrap: wrap;
+		margin: 25px auto;
+		justify-content: center;
+		.page-item {
+			position: relative;
+			svg {
+				position: absolute;
+				top: -50%;
+				left: 40%;
+				z-index: 11;
+				visibility: hidden;
+			}
+			&.active .page-link {
+				border-radius: 0;
+			}
+			&:hover a {
+				color: $main-color;
+			}
+		}
+		.flag-active svg {
+			visibility: visible;
+		}
+	}
+	.pagination-section {
+		display: flex;
+	}
+}
+.timer-btn {
+	width: 80px;
+	padding: 3px 5px;
+	display: flex;
+	align-items: center;
+}
+.answer-list {
+	padding: 20px 10px;
+	.custom-control {
+		padding-bottom: 20px;
+	}
+}
+.question-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 20px 10px;
+	p {
+		margin-bottom: 10px;
+		font-size: 15px;
+	}
+}
+.error {
+	color: red;
+}
+
+// Admin Side Custom Design
+.bg-image-main {
+	background-color: #ffffff;
+}
+
+.questions-table__wrapper .rdt_TableRow {
+	min-height: unset;
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
+	border-color: $main-color;
+	background-color: $main-color;
+}
+a.text-primary:hover,
+a.text-primary:focus {
+	color: $main-color !important;
+}
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+	background-color: $main-color;
+	border-color: $main-color;
+}
+.select__control.select__control--is-focused,
+.select__control.react-select__control--is-focused,
+.react-select__control.select__control--is-focused,
+.react-select__control.react-select__control--is-focused {
+	border-color: $main-color !important;
+}
+.select__menu,
+.react-select__menu {
+	.select__menu-list,
+	.react-select__menu-list {
+		.select__option,
+		.react-select__option {
+			cursor: pointer;
+
+			&.select__option--is-focused {
+				background-color: $main-color !important;
+				color: $white !important;
+			}
+
+			&.select__option--is-selected {
+				background-color: $main-color !important;
+				color: $white !important;
+			}
+		}
+	}
+
+	.select__menu-list,
+	.react-select__menu-list {
+		.select__group {
+			.select__group-heading {
+				margin-bottom: 0.5rem;
+
+				font-weight: bolder;
+				font-size: inherit;
+			}
+		}
+	}
+}
+.footer-static span a {
+	color: $main-color;
+}
+
+.img__fuild {
+	height: calc(100vh - 151px);
+}
+.main-test-header {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	z-index: 11;
+}
+.main-test {
+	height: calc(100vh - 175px);
+	.row {
+		margin-top: 50px;
+		height: inherit;
+	}
+}
+
+.option__wrapper {
+	.ck.ck-editor {
+		width: 100%;
+	}
+}
+.ck-toolbar_grouping {
+	border: none !important;
+}
+.ck-editor__editable.ck-rounded-corners {
+	border: none;
+}
+.ck.ck-editor__main > .ck-editor__editable {
+	background-color: #f8f8f8;
+}
+.main-test-col .wrs_modal_dialogContainer {
+	display: none;
+}
+.main-test-col .ck-editor__main {
+	pointer-events: none;
+}
+
+// Exam Result  Page
+.result_table {
+	padding: 20px;
+	border: 2px solid $light-gray;
+	margin: 25px 0;
+}
+.ans_question_table {
+	margin: 25px 0;
+	tr td,
+	th {
+		width: 33.33%;
+		vertical-align: top;
+	}
+	.list-group li {
+		margin-bottom: 10px;
+		&.correct_ans {
+			background-color: $correct_ans_bg;
+			color: $correct_ans_text;
+		}
+	}
+	.unanswered {
+		background-color: $unanswered_bg;
+		color: $unanswered_text;
+	}
+	.right_ans {
+		background-color: $correct_ans_bg;
+		color: $correct_ans_text;
+		font-weight: 600;
+		text-align: center;
+		svg {
+			margin-right: 3px;
+			stroke-width: 3;
+		}
+	}
+	.wrong_ans {
+		background-color: $wrong_ans_bg;
+		color: $wrong_ans_text;
+	}
+	.wrong_ans_highlight {
+		background-color: $wrong_ans_bg;
+		color: $wrong_ans_text;
+		font-weight: 600;
+		text-align: center;
+		svg {
+			margin-right: 3px;
+			stroke-width: 3;
+		}
+	}
+}
+.show_section_btn {
+	text-align: center;
+	margin-top: 9px;
+	button:not(:disabled):not(.disabled):active,
+	button:active,
+	button:focus {
+		background-color: $main-color !important;
+		color: $white !important;
+	}
+}
+.student_name {
+	margin: 25px 0 0;
+}
+// Admin Dashboard
+.detail-card .statistics-body .row {
+	justify-content: space-between;
+}
+.subject-table {
+	.avatar {
+		border-radius: 50%;
+		.avatar-content {
+			border-radius: 0;
+			img {
+				border-radius: 0;
+			}
+		}
+	}
+}
+
+.card-company-table table td,
+.card-company-table table th {
+	padding: 12px 25px;
+}
+.answer-list-col {
+	overflow-y: scroll;
+	height: 100%;
+}
+.subject-table {
+	.rdt_TableHeadRow {
+		background-color: #f3f2f7;
+		color: #6e6b7b;
+		text-transform: uppercase;
+		padding: 9px;
+	}
+	.rdt_TableBody {
+		padding: 9px;
+	}
+}
+.view-all-subject {
+	color: $main-color;
+}
+.instruction-table {
+	.rdt_TableHeadRow {
+		background-color: #f3f2f7;
+		text-transform: uppercase;
+	}
+}
+.rdt_TableCol_Sortable {
+	letter-spacing: 0.5px;
+	font-weight: bold;
+	color: #6e6b7b;
+}
+.view-all-insruction {
+	color: $main-color;
+}
+.instruction-header {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1.25rem;
+	h4 {
+		font-size: 21px;
+	}
+}
+.subject-title {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1.25rem;
+	h4 {
+		font-size: 21px;
+	}
+}
+.student-table {
+	.rdt_TableHeadRow {
+		background-color: #f3f2f7;
+		text-transform: uppercase;
+	}
+}
+.student-title {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1.25rem;
+	h4 {
+		font-size: 21px;
+	}
+}
+.ck-editor__editable p {
+	line-height: 1.3;
+}
+.rdt_TableRow{
+	min-height: auto !important;
+}
+
+.table-responsive{
+	overflow-x: inherit;
+}
+// My test page
+.my-test-title{
+	margin: 20px 0;
+	text-transform: uppercase;
+}
+.mytest-card-main{
+.card-header{
+	padding: 0;
+	background: url('../images/logo/logo-oncourse_.png') no-repeat;
+	background-position: center;
+	background-size: contain;
+	position: relative;
+}
+.mytest-card-header{
+	height: 150px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+	.my-test-progress{
+		color: $white;
+		text-transform: uppercase;
+		border-bottom: 2px solid $white;
+		text-align: center;
+		font-weight: 600;
+		margin-bottom: 20px;
+		padding-bottom: 10px;
+	}
+	.test-report-btn{
+		border: 2px solid $white !important;
+		background-color: $white;
+		color: $nav-text;
+		text-transform: uppercase;
+		margin-bottom: 20px;
+		border-radius: 0;
+		&:hover{
+			color: $white;
+			background-color: transparent;
+		}
+	}
+	.my-test-button{
+		border: 2px solid $white !important;
+		color: $white;
+		text-transform: uppercase;
+		border-radius: 0;
+		&:hover{
+			color: #000;
+			background-color: $white;
+		}
+	}
+}
+.test-overlay{
+	position: absolute;
+    background: rgba( 81,90,99, .60 );
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+	
+}
+.card-body{
+	border: 1px solid #bdc3c7;
+	padding-top: 1.5rem !important;
+	.my-test-heading{
+		font-weight: 500;
+		text-align: left;
+		font-size: 16;
+	}
+	.card-text{
+		text-align: left;
+		img{
+			height: 36px;
+			width: 36px;
+		}
+	}
+}
+}
+.account-btn.active{
+	background-color: $main-color !important;
+	border: 1px solid $main-color !important;
+}
