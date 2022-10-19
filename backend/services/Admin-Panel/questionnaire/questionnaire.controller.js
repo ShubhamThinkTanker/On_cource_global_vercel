@@ -26,10 +26,10 @@ module.exports = {
       var { errors, isValid } = validateQuestionnaire(req.body);
 
       var paperId = req.body.paper_name;
-      console.log(paperId);
+      // console.log(paperId);
 
       var paperData = await paperModel.findOne({ paper_name: paperId });
-      console.log(paperData, ":paperData");
+      // console.log(paperData, ":paperData");
       if (paperData === null) {
         errors.paper = `Paper Is Not Exists`;
         return commonResponse.customErrorResponse(

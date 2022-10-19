@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import BreadCrumbs from '@components/breadcrumbs';
@@ -27,9 +27,10 @@ import {
 } from 'reactstrap';
 
 const AddInstructions = () => {
-	const [save, setSave] = useState();
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const selectInputRef = useRef();
+	const [exit, setExit] = useState(false);
 	const [values, setValues] = useState({
 		subject_name: '',
 		total_marks: '',
@@ -42,30 +43,49 @@ const AddInstructions = () => {
 
 	useEffect(() => {
 		dispatch(GetAllSubjectNameRequest());
-	}, []);
-	useEffect(() => {
-		if (error !== null) {
-			toast.error(error);
-		}
-	}, [error]);
+		return () => {
+			dispatch(handleResetInstruct());
+		};
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (createdInstructData) {
 			dispatch(GetAllInstrunctionsRequest);
-			history.push('/admin/instructions/list');
+			handleResetData();
 		}
-		return () => {
-			dispatch(handleResetInstruct());
-		};
-	}, [createdInstructData]);
+		if (createdInstructData && exit) {
+			history.push('/admin/instructions/list');
+			setExit(false);
+		}
+	}, [createdInstructData, exit]);
 
-	const onSubmit = async (e) => {
+	const handleSaveAndExit = async (e) => {
 		e.preventDefault();
 
 		const createdData = {
 			...values,
 		};
 		await dispatch(CreateInstructionsRequest(createdData));
+		setExit(true);
+	};
+
+	const handleResetData = () => {
+		setValues({
+			subject_name: '',
+			total_marks: '',
+			time_duration: '',
+			isActive: 'active',
+			description: '',
+		});
+	};
+
+	const handleSaveAndNew = async (e) => {
+		e.preventDefault();
+		const createdData = {
+			...values,
+		};
+		await dispatch(CreateInstructionsRequest(createdData));
+		selectInputRef.current.select.clearValue();
 	};
 
 	return (
@@ -94,13 +114,14 @@ const AddInstructions = () => {
 									<Select
 										id="subject-select"
 										name="subject_name"
+										ref={selectInputRef}
 										isClearable={false}
-										options={subjectData && subjectData}
+										options={subjectData}
 										className={error && error.subject_name ? 'is-invalid' : ''}
 										classNamePrefix="select"
 										style={{ borderLeft: 'none' }}
 										defaultValue={values.subject_name}
-										onChange={(e) => setValues({ ...values, subject_name: e.value })}
+										onChange={(e) => setValues({ ...values, subject_name: e?.value })}
 									/>
 									{error && error.subject_name ? (
 										<small className="error">{error.subject_name}</small>
@@ -126,7 +147,7 @@ const AddInstructions = () => {
 											id="total_marks"
 											name="total_marks"
 											placeholder="Total Marks"
-											defaultValue={values.total_marks}
+											value={values.total_marks}
 											onChange={(e) => setValues({ ...values, total_marks: e.target.value })}
 										/>
 									</InputGroup>
@@ -152,6 +173,7 @@ const AddInstructions = () => {
 											id="time_duration"
 											name="time_duration"
 											placeholder="Time Duration"
+											value={values.time_duration}
 											onChange={(e) => setValues({ ...values, time_duration: e.target.value })}
 										/>
 									</InputGroup>
@@ -169,7 +191,7 @@ const AddInstructions = () => {
 									<CustomInput
 										type="radio"
 										id="active"
-										name="active"
+										name="isActive"
 										inline
 										defaultChecked
 										label="Active"
@@ -181,7 +203,7 @@ const AddInstructions = () => {
 									<CustomInput
 										type="radio"
 										id="inactive"
-										name="inactive"
+										name="isActive"
 										inline
 										label="In active"
 										checked={values.isActive === 'inactive' ? true : false}
@@ -210,6 +232,7 @@ const AddInstructions = () => {
 											id="description"
 											name="description"
 											placeholder=" Description"
+											value={values.description}
 											onChange={(e) => setValues({ ...values, description: e.target.value })}
 										/>
 									</InputGroup>
@@ -224,16 +247,16 @@ const AddInstructions = () => {
 							<Button.Ripple
 								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
 								color="primary"
-								onClick={onSubmit}
-								tag={Link}
-								to="/admin/instructions/add"
+								type="submit"
+								onClick={handleSaveAndNew}
 							>
 								Save & New
 							</Button.Ripple>
 							<Button.Ripple
 								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
 								color="primary"
-								onClick={onSubmit}
+								type="submit"
+								onClick={handleSaveAndExit}
 							>
 								Save & Exit
 							</Button.Ripple>

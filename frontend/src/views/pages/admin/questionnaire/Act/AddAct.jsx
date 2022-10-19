@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import BreadCrumbs from '@components/breadcrumbs';
@@ -35,12 +35,14 @@ import {
 
 const AddAct = () => {
 	const history = useHistory();
+	const selectInputRef = useRef();
 	const dispatch = useDispatch();
 	const [count, setCount] = useState(1);
-	const [editorValue, setEditorValue] = useState({});
-	const [questionValue, setQuestionValue] = useState({});
+	const [exit, setExit] = useState(false);
+	const [editorValue, setEditorValue] = useState('');
+	const [questionValue, setQuestionValue] = useState('');
 	const [answerValue, setAnswerValue] = useState('');
-	const [editorType, setEditorType] = useState('aaa');
+	// const [optionValue, setOptionValue] = useState({});
 
 	const [values, setValues] = useState({
 		is_type: 'ACT',
@@ -61,21 +63,84 @@ const AddAct = () => {
 	};
 	useEffect(() => {
 		dispatch(GetAllSubjectNameRequest());
-	}, []);
-	useEffect(() => {
-		dispatch(GetAllPaperNameRequest());
-	}, []);
-	useEffect(() => {
-		if (createdQuesData) {
-			dispatch(GetAllActQuestionnaireRequest);
-			history.push('/admin/questionnaire/Act/list');
-		}
 		return () => {
 			dispatch(handleResetQues());
 		};
-	}, [createdQuesData]);
+	}, [dispatch]);
 
-	const onSubmit = async (e) => {
+	// useEffect(() => {
+	// 	if (createdQuesData) {
+	// 		dispatch(GetAllActQuestionnaireRequest);
+	// 		handleResetData();
+	// 	}
+	// }, [createdQuesData]);
+
+	useEffect(() => {
+		if (createdQuesData) {
+			dispatch(GetAllActQuestionnaireRequest);
+			handleResetData();
+		}
+		if (createdQuesData && exit) {
+			history.push('/admin/instructions/list');
+			setExit(false);
+		}
+	}, [createdQuesData, exit]);
+
+	// const onSubmit = async (e) => {
+	// 	e.preventDefault();
+	// 	const options = [];
+
+	// 	for (const [key, value] of Object.entries(optionValue)) {
+	// 		options.push(value);
+	// 	}
+
+	// 	const createdData = {
+	// 		...values,
+	// 		question: questionValue,
+	// 		question_description: editorValue,
+	// 		answer_description: answerValue,
+	// 		options,
+	// 	};
+
+	// 	await dispatch(CreateQuestionnaireRequest(createdData));
+	// };
+
+	const handleSaveAndExit = async (e) => {
+		e.preventDefault();
+		const options = [];
+
+		for (const [key, value] of Object.entries(optionValue)) {
+			options.push(value);
+		}
+
+		const createdData = {
+			...values,
+			question: questionValue,
+			question_description: editorValue,
+			answer_description: answerValue,
+			options,
+		};
+		console.log(createdData, 'createdData');
+
+		await dispatch(CreateQuestionnaireRequest(createdData));
+		// history.push('/admin/questionnaire/Act/list');
+	};
+
+	const handleResetData = () => {
+		setValues({
+			is_type: 'ACT',
+			subject: '',
+			answer: '',
+			question_marks: '',
+		});
+		setQuestionValue('');
+		setEditorValue('');
+		setAnswerValue('');
+		// setOptionValue('');
+		options;
+	};
+
+	const handleSaveAndNew = async (e) => {
 		e.preventDefault();
 		const options = [];
 
@@ -92,6 +157,7 @@ const AddAct = () => {
 		};
 
 		await dispatch(CreateQuestionnaireRequest(createdData));
+		selectInputRef.current.select.clearValue();
 	};
 
 	const handleOptionDelete = (e, index) => {
@@ -214,6 +280,7 @@ const AddAct = () => {
 									<Select
 										id="subject-select"
 										name="subject"
+										ref={selectInputRef}
 										isClearable={false}
 										options={subjectData && subjectData}
 										className={error && error.subject_name ? 'is-invalid' : ''}
@@ -538,13 +605,19 @@ const AddAct = () => {
 						</Row>
 
 						<Col className="d-flex flex-sm-row flex-column mt-2 px-0" md="12" sm="12">
-							<Button.Ripple className="mb-1 mb-sm-0 mr-0 mr-sm-1" color="primary" type="submit">
+							<Button.Ripple
+								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
+								color="primary"
+								type="submit"
+								onClick={handleSaveAndNew}
+							>
 								Save & New
 							</Button.Ripple>
 							<Button.Ripple
 								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
 								color="primary"
-								onClick={onSubmit}
+								type="submit"
+								onClick={handleSaveAndExit}
 							>
 								Save & Exit
 							</Button.Ripple>

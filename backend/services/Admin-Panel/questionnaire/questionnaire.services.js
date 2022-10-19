@@ -140,7 +140,7 @@ exports.allACTQuestionnaireGet = async (reqQuery, filter_value, isActive, paperN
 
     let getAllQuestionnaireGet = await questionnaireModel
       .find({
-        $and: [{ is_deleted: { $eq: 0 } }, { is_type: "ACT" }, { paper_name: paperName }, filter_value],
+        $and: [{ is_deleted: { $eq: 0 } }, { is_type: "ACT" }, filter_value],
       })
       .limit(LIMIT)
       .skip(SKIP);

@@ -31,8 +31,8 @@ import {
 const AddPapermaster = () => {
 	const history = useHistory();
 	const [editorValue, setEditorValue] = useState('');
+	const [exit, setExit] = useState(false);
 	const dispatch = useDispatch();
-	const [savenew, setSavenew] = useState('');
 	const [values, setValues] = useState({
 		paper_name: '',
 		year: '',
@@ -43,23 +43,45 @@ const AddPapermaster = () => {
 	const { createdPapermasterData, error } = useSelector((state) => state.papermaster);
 
 	useEffect(() => {
-		if (error !== null) {
-			toast.error(error);
-		}
-	}, [error]);
+		dispatch(GetAllPapermasterRequest());
+		return () => {
+			dispatch(handleResetPapermaster());
+		};
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (createdPapermasterData) {
 			dispatch(GetAllPapermasterRequest);
-
-			history.push('/admin/papermaster/list');
+			handleResetData();
 		}
-		return () => {
-			dispatch(handleResetPapermaster());
-		};
-	}, [createdPapermasterData]);
+		if (createdPapermasterData && exit) {
+			history.push('/admin/papermaster/list');
+			setExit(false);
+		}
+	}, [createdPapermasterData, exit]);
 
-	const onSubmit = async (e) => {
+	const handleSaveAndExit = async (e) => {
+		e.preventDefault();
+
+		const createdData = {
+			...values,
+			paper_description: editorValue,
+		};
+		await dispatch(CreatePapermasterRequest(createdData));
+		setExit(true);
+	};
+
+	const handleResetData = () => {
+		setValues({
+			paper_name: '',
+			year: '',
+			paper_description: '',
+			status: 'active',
+		});
+		setEditorValue('');
+	};
+
+	const handleSaveAndNew = async (e) => {
 		e.preventDefault();
 
 		const createdData = {
@@ -77,7 +99,7 @@ const AddPapermaster = () => {
 				breadCrumbActive="Create Paper Master Details"
 			/>
 			<Card>
-				<Form>
+				<Form id="create-course-form">
 					<CardBody>
 						<Row>
 							<Col md="6" sm="12">
@@ -98,7 +120,7 @@ const AddPapermaster = () => {
 											id="paper_name"
 											name="paper_name"
 											placeholder="Paper Name"
-											defaultValue={values.paper_name}
+											value={values.paper_name}
 											onChange={(e) => setValues({ ...values, paper_name: e.target.value })}
 										/>
 									</InputGroup>
@@ -126,7 +148,7 @@ const AddPapermaster = () => {
 											id="year"
 											name="year"
 											placeholder="Year"
-											defaultValue={values.year}
+											value={values.year}
 											onChange={(e) => setValues({ ...values, year: e.target.value })}
 										/>
 									</InputGroup>
@@ -212,17 +234,16 @@ const AddPapermaster = () => {
 							<Button.Ripple
 								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
 								color="primary"
-								onClick={onSubmit}
+								onClick={handleSaveAndNew}
 								type="submit"
-								tag={Link}
-								to="/admin/papermaster/add"
 							>
 								Save & New
 							</Button.Ripple>
 							<Button.Ripple
 								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
 								color="primary"
-								onClick={onSubmit}
+								onClick={handleSaveAndExit}
+								type="submit"
 							>
 								Save & Exit
 							</Button.Ripple>

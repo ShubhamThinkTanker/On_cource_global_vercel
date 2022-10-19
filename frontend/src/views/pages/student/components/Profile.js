@@ -60,7 +60,7 @@ const Profile = () => {
 	const [country, setCountry] = useState({});
 	const [state, setState] = useState({});
 	const [city, setCity] = useState({});
-
+	console.log(values?.profile_image, 'profile_image');
 	const [values, setValues] = useState({
 		profile_image: getStudent?.profile_image,
 		username: getStudent?.username,
@@ -107,7 +107,9 @@ const Profile = () => {
 
 	useEffect(() => {
 		if (profileUpdateData !== null) {
+			// handleResetData();
 			history.push('/student/dashboard');
+
 			dispatch(handleResetAuth());
 		}
 	}, [profileUpdateData]);
@@ -248,7 +250,6 @@ const Profile = () => {
 																type="file"
 																hidden
 																id="change-img"
-																name="profile_image"
 																onChange={(e) => onChange(e)}
 																accept="image/*"
 															/>

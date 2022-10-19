@@ -14,7 +14,11 @@ import {
 	Media,
 	InputGroup,
 } from 'reactstrap';
-import { CreateSubjectRequest, handleResetSubjectData } from '../../../../redux/subjectSlice';
+import {
+	CreateSubjectRequest,
+	GetAllSubjectRequest,
+	handleResetSubjectData,
+} from '../../../../redux/subjectSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleAddModal } from '../../../../redux/subjectSlice';
 import { Link } from 'react-feather';
@@ -77,6 +81,28 @@ function AddSubjectModal() {
 			dispatch(handleResetSubjectData());
 		}
 	}, [createdSubject, dispatch]);
+	// const handleSaveAndExit = async (e) => {
+	// 	e.preventDefault();
+	// 	const { subject_image, subject_name, status } = formValues;
+	// 	const formData = new FormData();
+	// 	formData.append('subject_image', subject_image);
+	// 	formData.append('subject_name', subject_name);
+	// 	formData.append('status', status);
+	// 	await dispatch(CreateSubjectRequest(formData));
+	// 	history.push('/admin/subjects/list');
+	// };
+
+	// const handleSaveAndNew = async (e) => {
+	// 	e.preventDefault();
+	// 	const { subject_image, subject_name, status } = formValues;
+	// 	const formData = new FormData();
+	// 	formData.append('subject_image', subject_image);
+	// 	formData.append('subject_name', subject_name);
+	// 	formData.append('status', status);
+	// 	await dispatch(CreateSubjectRequest(formData));
+	// 	// window.location.reload(false);
+	// 	// handleResetFormData();
+	// };
 
 	return (
 		<Modal isOpen={isAddModalShow} toggle={handleModalClose} className="modal-dialog-centered">
@@ -189,19 +215,18 @@ function AddSubjectModal() {
 						</Col>
 
 						<Col className="text-center mt-1" xs={12}>
-							<Button.Ripple
-								className="mb-1 mb-sm-0 mr-0 mr-sm-1"
-								color="primary"
-								onClick={handleSubmit}
+							<Button type="submit" className="me-1 main-color-btn mr-sm-1" color="primary">
+								Submit
+							</Button>
+							<Button
+								type="reset"
+								color="secondary"
+								className="white-color-btn"
+								outline
+								onClick={handleModalClose}
 							>
-								Save & New
-							</Button.Ripple>
-							<Button.Ripple type="submit" className="mb-1 mb-sm-0 mr-0 mr-sm-1" color="primary">
-								Save & Exit
-							</Button.Ripple>
-							<Button.Ripple type="reset" color="danger" outline onClick={handleModalClose}>
 								Cancel
-							</Button.Ripple>
+							</Button>
 						</Col>
 					</Row>
 				</Form>

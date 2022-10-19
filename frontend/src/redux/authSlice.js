@@ -105,6 +105,7 @@ export const authSlice = createSlice({
 		handleStudentProfileUpdateData: (state, action) => {
 			state.isLoading = false;
 			state.profileUpdateData = action.payload;
+			localStorage.setItem('userData', JSON.stringify(action.payload));
 		},
 		handleErrorStudentProfileUpdateData: (state, action) => {
 			state.error = action.payload;

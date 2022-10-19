@@ -49,7 +49,7 @@ module.exports = {
         subjectId._id
       );
       if (checkInstruction) {
-        errors.subject = "Instruction For This Subject Already Created";
+        errors.subject_name = "Instruction For This Subject Already Created";
         return commonResponse.customErrorResponse(
           res,
           422,

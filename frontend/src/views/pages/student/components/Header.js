@@ -37,7 +37,12 @@ const UserDropdown = () => {
 					</span>
 					<small className="user-status">{userData?.role}</small>
 				</div>
-				<Avatar img={userAvatar} imgHeight="40" imgWidth="40" status="online" />
+				<Avatar
+					img={`${process.env.REACT_APP_PROFILE_URL}${userAvatar}`}
+					imgHeight="40"
+					imgWidth="40"
+					status="online"
+				/>
 			</DropdownToggle>
 			<DropdownMenu right>
 				<DropdownItem tag={Link} to="/student/profile">
