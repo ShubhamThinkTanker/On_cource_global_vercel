@@ -63,7 +63,7 @@ const SubjectList = () => {
 					className="mr-1"
 					width="32"
 					height="32"
-					img={`${process.env.REACT_APP_SUBJECT_URL}/${row.subject_image}`}
+					img={`${process.env.REACT_APP_SUBJECT_URL}${row.subject_image}`}
 				/>
 			);
 		} else {
