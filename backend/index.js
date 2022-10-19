@@ -35,7 +35,7 @@ app.set('view engine', 'html');
 //   res.sendFile(path.join('../backend/Templates/views/Index.html'));
 //   //__dirname : It will resolve to your project folder.
 // });
-
+console.log(path.join(__dirname), ":::::::::;");
 if (process.env.ENVIRONMENT == "Production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
   app.get("/*", (req, res) => {
