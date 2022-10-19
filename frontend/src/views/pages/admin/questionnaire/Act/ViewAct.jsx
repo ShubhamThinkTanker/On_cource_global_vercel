@@ -24,7 +24,6 @@ const ViewAct = () => {
 			}
 		}
 	}, [getByIdQuesData]);
-
 	return (
 		<Fragment>
 			<BreadCrumbs
@@ -36,6 +35,19 @@ const ViewAct = () => {
 			<Card>
 				<CardBody>
 					<Row>
+						<Col md="6" sm="12">
+							<FormGroup className="mb-2">
+								<Label for="subject_name">Paper</Label>
+								<Input
+									type="text"
+									id="paper_name"
+									name="paper_name"
+									placeholder="Paper"
+									defaultValue={getByIdQuesData && getByIdQuesData.paper_name}
+									disabled
+								/>
+							</FormGroup>
+						</Col>
 						<Col md="6" sm="12">
 							<FormGroup className="mb-2">
 								<Label for="subject_name">Subject</Label>

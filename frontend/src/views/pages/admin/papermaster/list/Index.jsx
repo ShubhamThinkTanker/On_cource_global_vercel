@@ -2,12 +2,12 @@ import React from 'react';
 import BreadCrumbs from '@components/breadcrumbs';
 import Table from './PapermasterTable';
 import { Link } from 'react-router-dom';
-import { Edit, Eye, Plus, Trash2 } from 'react-feather';
-import { useDispatch } from 'react-redux';
+import { Edit, Eye, Plus, Trash2, PlusCircle } from 'react-feather';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
-import { Badge, Button } from 'reactstrap';
+import { Badge, Button, UncontrolledTooltip } from 'reactstrap';
 import {
 	DeletePapermasterRequest,
 	GetAllPapermasterRequest,
@@ -15,6 +15,9 @@ import {
 } from '../../../../../redux/papermasterSlice';
 
 const PapermasterList = () => {
+	const { paperData, subjectData, createdQuesData, error } = useSelector((state) => {
+		return state.questionnaire;
+	});
 	const dispatch = useDispatch();
 
 	const handleDeleteById = (id) => {
@@ -61,13 +64,7 @@ const PapermasterList = () => {
 			minWidth: '15%',
 			cell: (row) => <p>{row.year}</p>,
 		},
-		// {
-		// 	name: 'Paper Description',
-		// 	selector: 'paper_description',
-		// 	sortable: true,
-		// 	minWidth: '15%',
-		// 	cell: (row) => <p>{row.total_marks}</p>,
-		// },
+
 		{
 			name: 'Status ',
 			minWidth: '15%',
@@ -84,7 +81,7 @@ const PapermasterList = () => {
 
 		{
 			name: 'Actions',
-			minWidth: '15%',
+			minWidth: '35%',
 			cell: (row) => {
 				return (
 					<div className="d-inline ">
@@ -103,9 +100,28 @@ const PapermasterList = () => {
 							onClick={() => handleDeleteById(row._id)}
 							style={{ cursor: 'pointer' }}
 						/>
-						<Link to={`/admin/questionnaire/Act/add/${row._id}`} className="text-warning mx-1">
-							<Plus size={18} />
+						<Link
+							to={`/admin/questionnaire/Act/add/${row._id}`}
+							id="create-questions"
+							className="text-warning mx-1"
+						>
+							<PlusCircle size={18} />
+							<UncontrolledTooltip placement="bottom" target="create-questions">
+								Create Questions
+							</UncontrolledTooltip>
 						</Link>
+
+						{/* <Button.Ripple
+							
+							color="primary"
+							className="main-color-btn"
+							tag={Link}
+							to={`/admin/questionnaire/Act/add/${row._id}`}
+						>
+							<PlusCircle size={16} />
+							<span className="align-middle" />
+							
+						</Button.Ripple> */}
 					</div>
 				);
 			},

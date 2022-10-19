@@ -47,7 +47,7 @@ const EditPapermaster = () => {
 		status: getByIdPapermasterData?.status,
 		// paper_description: getByIdPapermasterData?.editorValue,
 	});
-	console.log(values, 'values');
+
 	useEffect(() => {
 		dispatch(GetPapermasterRequest(id));
 	}, [dispatch]);

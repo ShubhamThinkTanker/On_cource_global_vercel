@@ -114,7 +114,7 @@ const PapermasterTable = ({ columns }) => {
 	useEffect(() => {
 		dispatch(GetAllPapermasterRequest(queryString));
 	}, [dispatch, queryString]);
-	console.log(papermasterData, 'papermasterData');
+
 	const ExpandableTable = ({ data }) => {
 		return (
 			<div className="expandable-content p-2 shadow-lg  m-2 bg-body rounded">

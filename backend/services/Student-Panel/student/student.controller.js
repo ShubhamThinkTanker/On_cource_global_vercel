@@ -269,7 +269,6 @@ module.exports = {
         length: 10,
         numbers: true,
       });
-      console.log(password, ":password");
 
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, async (err, hash) => {
@@ -658,8 +657,8 @@ module.exports = {
           req.body.profile_image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
         ) {
           var matches = req.body.profile_image.match(
-            /^data:([A-Za-z-+\/]+);base64,(.+)$/
-          ),
+              /^data:([A-Za-z-+\/]+);base64,(.+)$/
+            ),
             image = {};
           image.type = matches[1];
 
@@ -773,7 +772,6 @@ module.exports = {
 
   Autorization: async (req, res, next) => {
     try {
-      console.log(req.body.id);
       let Student = await studentModel.findOne({ _id: req.body.id });
 
       if (Student) {
@@ -825,7 +823,6 @@ module.exports = {
 
       const Student = await studentModel.findOne({ _id: id });
 
-      console.log(Student, ":Student");
       console.log(req.body.current_password, "----------:");
       console.log(req.body.new_password, ":confirm_passwordconfirm_password");
       console.log(req.body.confirm_password, ":confirm_password");
@@ -834,7 +831,6 @@ module.exports = {
         req.body.current_password,
         Student.password,
         (err, data) => {
-          console.log(data, ":data");
           if (new_password !== confirm_password) {
             return commonResponse.customErrorResponse(
               res,

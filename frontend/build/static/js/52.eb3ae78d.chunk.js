@@ -1,2 +1,0 @@
-(this["webpackJsonpvuexy-react-admin-dashboard"]=this["webpackJsonpvuexy-react-admin-dashboard"]||[]).push([[52],{911:function(a,t,e){"use strict";e.r(t);e(1);var s=e(370),d=e(372),r=e(12);t.default=function(){var a=Object(d.g)();return"admin"===Object(s.b)().role?a.push("/admin/dashboard"):a.push("/student/dashboard"),Object(r.jsx)(r.Fragment,{})}}}]);
-//# sourceMappingURL=52.eb3ae78d.chunk.js.map

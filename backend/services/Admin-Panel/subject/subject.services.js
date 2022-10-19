@@ -22,7 +22,6 @@ exports.is_subject_name_exist = async (reqBody) => {
   }
 };
 exports.subjectCreate = async (reqbody, filename) => {
-  console.log(filename, "filename");
   try {
     const newSubject = new subjectModel({
       subject_image: filename,
@@ -104,7 +103,6 @@ exports.get = async (id) => {
   }
 };
 exports.update = async (id, reqBody, filename) => {
-  console.log(reqBody, "reqBody");
   try {
     let findOneBYId = await subjectModel.findOne({ _id: id });
 

@@ -8,6 +8,7 @@ import {
 	DeleteQuestionnaireAPI,
 	MultipalDeleteQuestionnaireAPI,
 	GetAllSubjectNameAPI,
+	GetAllPaperNameAPI,
 	GetAllExcelQuestionnaireAPI,
 	GetAllActQuestionnaireAPI,
 	GetAllSatQuestionnaireAPI,
@@ -23,6 +24,7 @@ const initialState = {
 	actquestionnaireData: null,
 	satquestionnaireData: null,
 	subjectData: null,
+	paperData: null,
 	error: null,
 	questionnaireExcelData: null,
 	isModalOpen: false,
@@ -100,6 +102,14 @@ const questionnaireSlice = createSlice({
 			state.error = action.payload;
 			state.isLoading = false;
 		},
+		handleAllGetPaperData: (state, action) => {
+			state.paperData = action.payload;
+			state.isLoading = false;
+		},
+		handleErrorAllGetPaperData: (state, action) => {
+			state.error = action.payload;
+			state.isLoading = false;
+		},
 		handleResetQues: (state) => {
 			state.isLoading = false;
 			state.getByIdQuesData = null;
@@ -110,6 +120,7 @@ const questionnaireSlice = createSlice({
 			state.satquestionnaireData = null;
 			state.deletedMultiQuesData = null;
 			state.subjectData = null;
+			state.paperData = null;
 			state.error = null;
 			state.questionnaireExcelData = null;
 		},
@@ -152,6 +163,8 @@ export const {
 	handleResetQuesData,
 	handleAllGetSubjectData,
 	handleErrorAllGetSubjectData,
+	handleAllGetPaperData,
+	handleErrorAllGetPaperData,
 	handleAllExcelGetQuesData,
 	handleErrorAllExcelGetQuesData,
 	handleModalOpen,
@@ -209,28 +222,6 @@ export const GetQuestionnaireRequest = (id) => async (dispatch, getState) => {
 		dispatch(handleErrorGetQuesData(err));
 	}
 };
-
-// export const GetAllQuestionnaireRequest = (queryString) => async (dispatch, getState) => {
-// 	dispatch(setLoading());
-// 	try {
-// 		const config = {
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 				'Access-Control-Allow-Origin': '*',
-// 				'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-// 				Authorization: getState()?.auth?.Token,
-// 			},
-// 		};
-// 		const { data } = await GetAllQuestionnaireAPI(queryString, config);
-// 		const { statusCode, data: QueData } = data;
-
-// 		if (statusCode === 200) {
-// 			dispatch(handleAllGetQuesData(QueData));
-// 		}
-// 	} catch (err) {
-// 		dispatch(handleErrorAllGetQuesData(err));
-// 	}
-// };
 
 export const GetAllActQuestionnaireRequest = (queryString) => async (dispatch, getState) => {
 	dispatch(setLoading());
@@ -368,6 +359,31 @@ export const GetAllSubjectNameRequest = (subjectString) => async (dispatch, getS
 		}
 	} catch (err) {
 		dispatch(handleErrorAllGetSubjectData(err));
+	}
+};
+export const GetAllPaperNameRequest = (paperString) => async (dispatch, getState) => {
+	dispatch(setLoading());
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+				Authorization: getState()?.auth?.Token,
+			},
+		};
+		const { data } = await GetAllPaperNameAPI(paperString, config);
+
+		const { statusCode, error, errors, data: PaperData } = data;
+
+		if (error) {
+			dispatch(handleErrorAllGetPaperData(errors));
+		}
+		if (statusCode === 200) {
+			dispatch(handleAllGetPaperData(PaperData));
+		}
+	} catch (err) {
+		dispatch(handleErrorAllGetPaperData(err));
 	}
 };
 export const GetAllExcelQuestionnaireRequest = (excelData) => async (dispatch, getState) => {

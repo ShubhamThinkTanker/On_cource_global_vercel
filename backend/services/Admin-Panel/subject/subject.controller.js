@@ -51,8 +51,8 @@ module.exports = {
         req.body.subject_image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       ) {
         var matches = req.body.subject_image.match(
-          /^data:([A-Za-z-+\/]+);base64,(.+)$/
-        ),
+            /^data:([A-Za-z-+\/]+);base64,(.+)$/
+          ),
           image = {};
         // get image extension and image
         image.type = matches[1];
@@ -216,7 +216,7 @@ module.exports = {
         return commonResponse.success(
           res,
           200,
-          "Get All Student Name",
+          "Get All Subject Name",
           allSubjectName
         );
       } else {
@@ -305,8 +305,8 @@ module.exports = {
         req.body.subject_image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       ) {
         var matches = req.body.subject_image.match(
-          /^data:([A-Za-z-+\/]+);base64,(.+)$/
-        ),
+            /^data:([A-Za-z-+\/]+);base64,(.+)$/
+          ),
           image = {};
         image.type = matches[1];
 

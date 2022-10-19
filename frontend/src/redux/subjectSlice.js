@@ -20,6 +20,7 @@ const initialState = {
 	error: null,
 	isAddModalShow: false,
 	isEditModalShow: false,
+	isSubjectCardOpen: false,
 };
 
 export const subjectSlice = createSlice({
@@ -92,6 +93,9 @@ export const subjectSlice = createSlice({
 		toggleEditModal: (state, action) => {
 			state.isEditModalShow = action.payload;
 		},
+		toggleSubjectCard: (state, action) => {
+			state.isSubjectCardOpen = action.payload;
+		},
 	},
 });
 
@@ -112,6 +116,7 @@ export const {
 	handleResetSubjectData,
 	toggleAddModal,
 	toggleEditModal,
+	toggleSubjectCard,
 } = subjectSlice.actions;
 
 export default subjectSlice.reducer;
@@ -252,7 +257,7 @@ export const DeleteSubjectRequest = (deletedData) => async (dispatch, getState) 
 
 export const DeleteAllSubjectRequest = (deletedMultiData) => async (dispatch, getState) => {
 	dispatch(setLoading());
-	console.log(deletedMultiData, ":deletedMultiData");
+	console.log(deletedMultiData, ':deletedMultiData');
 	try {
 		const config = {
 			headers: {

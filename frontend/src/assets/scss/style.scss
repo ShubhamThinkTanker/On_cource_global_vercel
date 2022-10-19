@@ -882,3 +882,6 @@ a.text-primary:focus {
 	background-color: $main-color !important;
 	border: 1px solid $main-color !important;
 }
+.ck.ck-dropdown .ck-dropdown__arrow{
+	z-index: inherit !important;
+}

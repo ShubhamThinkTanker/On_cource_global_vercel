@@ -17,13 +17,11 @@ function MyCourse() {
 						stats="Act Test 19"
 						statTitle="by oncourse global"
 						// button={Button}
-						buttonReport="Test Report"
 					/>
 					<MyTestCard
 						testProgress="Progress 0%"
 						stats="Gmat Test 2"
 						statTitle="by oncourse global"
-						buttonReport="Test Report"
 					/>
 				</Row>
 			</Container>

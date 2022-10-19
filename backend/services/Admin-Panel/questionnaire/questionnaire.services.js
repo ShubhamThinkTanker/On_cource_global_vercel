@@ -81,8 +81,6 @@ exports.questionnaireCreate = async (reqbody, id, name, paperData) => {
       isActive: reqbody.status || "active",
     });
 
-
-
     // console.log(datac, "::English");
     return await newquestionnaire.save();
   } catch (error) {
@@ -126,7 +124,7 @@ exports.allSATQuestionnaireGet = async (reqQuery, filter_value, isActive) => {
   }
 };
 
-exports.allACTQuestionnaireGet = async (reqQuery, filter_value, isActive) => {
+exports.allACTQuestionnaireGet = async (reqQuery, filter_value, isActive, paperName) => {
   try {
     let LIMIT = reqQuery.limit * 1;
     let SKIP = (reqQuery.page - 1) * reqQuery.limit;
@@ -142,7 +140,7 @@ exports.allACTQuestionnaireGet = async (reqQuery, filter_value, isActive) => {
 
     let getAllQuestionnaireGet = await questionnaireModel
       .find({
-        $and: [{ is_deleted: { $eq: 0 } }, { is_type: "ACT" }, filter_value],
+        $and: [{ is_deleted: { $eq: 0 } }, { is_type: "ACT" }, { paper_name: paperName }, filter_value],
       })
       .limit(LIMIT)
       .skip(SKIP);
@@ -356,8 +354,6 @@ exports.ExcellquestionnaireCreate = async (data) => {
 
       if (subjectId !== null) {
         let Options = element.options;
-        console.log(subjectId.subject_name);
-        console.log(element.is_type);
 
         const lastQuestionNo = await questionnaireModel
           .findOne({

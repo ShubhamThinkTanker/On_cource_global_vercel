@@ -124,7 +124,12 @@ export const GetAllSubjectNameAPI = async (subjectString, config) => {
 		config
 	);
 };
-
+export const GetAllPaperNameAPI = async (paperString, config) => {
+	return await axios.get(
+		`${BASE_URL_API}/admin/paper_master/getallpapername?${paperString}`,
+		config
+	);
+};
 export const GetAllSubjectNameStudentAPI = async (subjectString, config) => {
 	return await axios.get(
 		`${BASE_URL_API}/admin/subject/getallsubjectname_student?${subjectString}`,

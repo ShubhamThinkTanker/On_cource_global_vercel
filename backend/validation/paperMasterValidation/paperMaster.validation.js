@@ -3,7 +3,6 @@ const isEmpty = require("../isEmpty");
 
 module.exports = function validatePaperMaster(data) {
   let errors = {};
-  console.log(data, "22822");
 
   data.paper_name = !isEmpty(data.paper_name) ? data.paper_name : "";
   data.paper_description = !isEmpty(data.paper_description)
@@ -22,7 +21,7 @@ module.exports = function validatePaperMaster(data) {
   if (Validator.isEmpty(data.year)) {
     errors.year = "Year is required";
   }
-  console.log(errors, "erroes");
+
   return {
     errors,
     isValid: isEmpty(errors),

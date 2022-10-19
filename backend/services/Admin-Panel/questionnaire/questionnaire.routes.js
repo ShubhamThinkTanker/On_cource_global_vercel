@@ -3,21 +3,42 @@ const questionnaireController = require("./questionnaire.controller");
 const {
   ensureAuthenticatedAdmin,
   ensureAuthenticatedStudent,
+  ensureAuthenticatedBoth,
 } = require("../../../helper/guards");
 const multer = require("multer");
 const path = require("path");
 
+// var storage = multer.diskStorage({
+//   destination: function destination(req, file, cb) {
+//     cb(null, `${__dirname}/Files`);
+//   },
+//   filename: function filename(req, file, cb) {
+//     cb(null, file.originalname);
+//   },
+// });
+// var upload = multer({
+//   storage: storage,
+// }).single("excell");
+
 var storage = multer.diskStorage({
   destination: function destination(req, file, cb) {
-    cb(null, `${__dirname}/Files`);
+    cb(null, "public/upload");
   },
   filename: function filename(req, file, cb) {
-    cb(null, file.originalname);
+    console.log(file, req, "LLLLLLLaaa");
+    cb(
+      null,
+      Date.now() +
+        "-" +
+        file.fieldname +
+        "." +
+        file.originalname.split(".")[file.originalname.split(".").length - 1]
+    );
   },
 });
 var upload = multer({
   storage: storage,
-}).single("excell");
+});
 
 router.post(
   "/create",
@@ -68,4 +89,10 @@ router.post(
 
 router.post("/excel-upload", questionnaireController.xlsx);
 
+router.post(
+  "/upload-ckeditor-image",
+  upload.single("image", "image"),
+
+  questionnaireController.uploadCkeditorImage
+);
 module.exports = router;

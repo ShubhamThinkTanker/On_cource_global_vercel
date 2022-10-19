@@ -32,7 +32,6 @@ module.exports = {
       }
 
       const Admin = await adminService.login(req.body);
-      console.log(Admin, ":Admin");
 
       if (!Admin.role == "admin") {
         errors.error = "Only admin can able to login in this page";

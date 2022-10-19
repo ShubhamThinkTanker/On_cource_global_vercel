@@ -34,15 +34,18 @@ const SubjectRoutes = [
 			resource: 'Auth',
 		},
 	},
-	// {
-	// 	path: '/student/progress',
-	// 	exact: true,
-	// 	layout: 'BlankLayout',
-	// 	// component: lazy(() => import('../../views/pages/student/progress/progress.jsx')),
-	// 	meta: {
-	// 		resource: 'Auth',
-	// 	},
-	// },
+	{
+		path: '/student/test/subject',
+		exact: true,
+		layout: 'BlankLayout',
+		// component: lazy(() => import('../../views/pages/student/progress/progress.jsx')),
+		component: lazy(() => import('../../views/pages/student/subjectTest/Index')),
+		// component: lazy(() => import('../../views/pages/student/test/Index')),
+		meta: {
+			resource: 'Auth',
+		},
+	},
+
 	{
 		path: '/student/mycourse',
 		exact: true,

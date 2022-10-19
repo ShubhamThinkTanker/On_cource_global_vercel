@@ -69,8 +69,6 @@ exports.create = async (reqbody, id) => {
           updated_by: reqbody.updated_by,
         });
 
-        console.log(quiz, ":quiz");
-
         allQuestion.push(quiz);
       }
     }

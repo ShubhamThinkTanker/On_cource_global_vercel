@@ -29,6 +29,11 @@ const SubjectCard = ({
 	const [modal, setModal] = useState(false);
 
 	const toggle = () => setModal(!modal);
+
+	const onClick = (stats) => {
+		setModal(!modal);
+		console.log('stats', stats);
+	};
 	return (
 		<Card className="text-center subject-card">
 			<CardBody className={className}>
@@ -45,7 +50,7 @@ const SubjectCard = ({
 				</div>
 				<h3 className="font-weight-bold">{stats}</h3>
 				<p className="card-text line-ellipsis">{statTitle}</p>
-				<Button.Ripple color="primary" outline onClick={toggle}>
+				<Button.Ripple color="primary" outline onClick={() => onClick(stats)}>
 					Resume Practice Test
 				</Button.Ripple>
 				{/* <Button.Ripple color="primary" outline tag={Link} to="/student/progress">
@@ -95,8 +100,8 @@ const SubjectCard = ({
 						Rules to follow during all online proctored exams:
 					</ModalHeader>
 					<ModalBody className="instruction-modal-body">
-						<h4>Work is under Progress</h4>
-						{/* <ListGroup>
+						{/* <h4>Work is under Progress</h4> */}
+						<ListGroup>
 							<ListGroupItem>You must use a functioning webcam and microphone</ListGroupItem>
 							<ListGroupItem>
 								No cell phones or other secondary devices in the room or test area
@@ -112,13 +117,16 @@ const SubjectCard = ({
 							<ListGroupItem>No dual screens/monitors</ListGroupItem>
 							<ListGroupItem>Do not leave the camera </ListGroupItem>
 							<ListGroupItem>No use of additional applications or internet</ListGroupItem>
-						</ListGroup> */}
+						</ListGroup>
 					</ModalBody>
 					<ModalFooter>
 						<>
 							{/* <Link to="/student/progress">
 								<Button color="primary">Accept</Button>
 							</Link> */}
+							<Link to="/student/test/subject">
+								<Button color="primary">Accept</Button>
+							</Link>
 						</>
 						<Button color="secondary" onClick={toggle}>
 							Cancel

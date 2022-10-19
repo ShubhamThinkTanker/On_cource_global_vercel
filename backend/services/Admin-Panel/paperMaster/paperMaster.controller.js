@@ -323,7 +323,6 @@ module.exports = {
 
       let FindAllPaper = findAllPaper.map((index) => index.paper_name);
 
-
       var allPaperName = [];
       if (FindAllPaper) {
         for (let i = 0; i < FindAllPaper.length; i++) {
@@ -336,7 +335,7 @@ module.exports = {
         return commonResponse.success(
           res,
           200,
-          "Get All Student Name",
+          "Get All Paper Name",
           allPaperName
         );
       } else {
@@ -351,5 +350,4 @@ module.exports = {
       return next(error);
     }
   },
-
 };

@@ -6,10 +6,12 @@ import BreadCrumbs from '@components/breadcrumbs';
 import { Plus, Delete } from 'react-feather';
 import Repeater from '@components/repeater';
 import Select from 'react-select';
+import axios from 'axios';
 import {
 	CreateQuestionnaireRequest,
 	GetAllActQuestionnaireRequest,
 	GetAllSubjectNameRequest,
+	GetAllPaperNameRequest,
 	handleResetQues,
 } from '../../../../../redux/questionnaireSlice';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -31,38 +33,18 @@ import {
 	InputGroup,
 } from 'reactstrap';
 
-// class CustomOption extends Component {
-// 	static propTypes = {
-// 		onChange: PropTypes.func,
-// 		editorState: PropTypes.object,
-// 	};
-
-// 	addStar = () => {
-// 		const { editorState, onChange } = this.props;
-// 		const contentState = Modifier.replaceText(
-// 			editorState.getCurrentContent(),
-// 			editorState.getSelection(),
-// 			'⭐',
-// 			editorState.getCurrentInlineStyle()
-// 		);
-// 		onChange(EditorState.push(editorState, contentState, 'insert-characters'));
-// 	};
-
-// 	render() {
-// 		return <div onClick={this.addStar}>⭐</div>;
-// 	}
-// }
-
 const AddAct = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [count, setCount] = useState(1);
-	const [editorValue, setEditorValue] = useState('');
-	const [questionValue, setQuestionValue] = useState('');
+	const [editorValue, setEditorValue] = useState({});
+	const [questionValue, setQuestionValue] = useState({});
 	const [answerValue, setAnswerValue] = useState('');
+	const [editorType, setEditorType] = useState('aaa');
 
 	const [values, setValues] = useState({
 		is_type: 'ACT',
+		paper: '',
 		subject: '',
 		answer: '',
 		question_marks: '',
@@ -70,17 +52,19 @@ const AddAct = () => {
 
 	const [optionValue, setOptionValue] = useState({});
 
-	const { subjectData, createdQuesData, error } = useSelector((state) => {
+	const { paperData, subjectData, createdQuesData, error } = useSelector((state) => {
 		return state.questionnaire;
 	});
-
+	console.log(createdQuesData, 'createdQuesData');
 	const increaseCount = () => {
 		setCount((prev) => prev + 1);
 	};
 	useEffect(() => {
 		dispatch(GetAllSubjectNameRequest());
 	}, []);
-
+	useEffect(() => {
+		dispatch(GetAllPaperNameRequest());
+	}, []);
 	useEffect(() => {
 		if (createdQuesData) {
 			dispatch(GetAllActQuestionnaireRequest);
@@ -120,19 +104,61 @@ const AddAct = () => {
 		e.preventDefault();
 		e.target.closest('form').remove();
 	};
-	// function uploadAdapter(loader) {
-	// 	return {
-	// 		upload: () => {
-	// 			return new Promise((resolve, reject) => {
-	// 				const body = new FormData();
-	// 				loader.file.then((file) => {
-	// 					body.append('uploadImg', file);
-	// 					// fetch(`API`),
-	// 				});
-	// 			});
-	// 		},
-	// 	};
-	// }
+
+	const URL = 'http://localhost:5000/api/v1/admin/questionnaire/upload-ckeditor-image';
+	// const [state, setState] = useState({});
+
+	class UploadAdapter {
+		constructor(type, loader, url, editor) {
+			this.type = type;
+			this.url = url;
+			this.loader = loader;
+			this.loader.file.then((pic) => (this.file = pic));
+			this.editor = editor;
+			this.upload();
+		}
+
+		// Starts the upload process.
+		upload() {
+			const fd = new FormData();
+			fd.append('image', this.file); // your image
+			fd.append('dataCkeditor', this.editor.getData()); // your image
+			// ...
+
+			return new Promise((resolve, reject) => {
+				axios
+					.post(this.url, fd, {
+						onUploadProgress: (e) => {
+							console.log(Math.round((e.loaded / e.total) * 100) + ' %');
+						},
+					})
+					.then((response) => {
+						if (this.type == 'question') {
+							setQuestionValue({ data: response.data.imgData });
+						} else if (this.type == 'question_description') {
+							setEditorValue({ data: response.data.imgData });
+						} else if (this.type == 'answer_description') {
+							setAnswerValue({ data: response.data.imgData });
+						} else {
+							setOptionValue({ ...optionValue, [this.type]: response.data.imgData });
+						}
+						// setState({data:response})
+						resolve(response);
+					})
+					.catch((error) => {
+						reject('Server Error');
+						console.log('Server Error : ', error);
+					});
+			});
+		}
+	}
+
+	function CustomUploadAdapterPlugin(editor, type) {
+		editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+			return new UploadAdapter(type, loader, URL, editor);
+		};
+	}
+
 	return (
 		<Fragment>
 			<BreadCrumbs
@@ -144,6 +170,35 @@ const AddAct = () => {
 				<Form>
 					<CardBody>
 						<Row>
+							<Col md="6" sm="12">
+								<FormGroup className="mb-2">
+									<Label className="required" for="Paper">
+										Paper
+									</Label>
+									<InputGroup
+										className={
+											error && error.paper_name
+												? 'is-invalid input-group-merge'
+												: 'input-group-merge mb-1'
+										}
+									></InputGroup>
+									<Select
+										id="paper-select"
+										name="Paper"
+										isClearable={false}
+										options={paperData && paperData}
+										className={error && error.paper_name ? 'is-invalid' : ''}
+										classNamePrefix="select"
+										style={{ borderLeft: 'none' }}
+										defaultValue={values.paper}
+										onChange={(e) => setValues({ ...values, paper: e.value })}
+									/>
+									{error && error.paper_name ? (
+										<small className="error">{error.paper_name}</small>
+									) : null}
+								</FormGroup>
+							</Col>
+
 							<Col md="6" sm="12">
 								<FormGroup className="mb-2">
 									<Label className="required" for="subject">
@@ -182,9 +237,7 @@ const AddAct = () => {
 										editorplaceholder="Start typing here..."
 										editor={ClassicEditor}
 										config={{
-											// Plugin: { ImageInsert },
-											// plugins: { Base64UploadAdapter },
-											// plugins: { EasyImage, Image },
+											extraPlugins: [(e) => CustomUploadAdapterPlugin(e, 'question')],
 											toolbar: {
 												items: [
 													'heading',
@@ -197,16 +250,17 @@ const AddAct = () => {
 													'bulletedList',
 													'numberedList',
 													'imageUpload',
-
 													'insertTable',
 													'highlight',
 												],
 											},
-
 											removePlugins: ['Title'],
 										}}
-										data={questionValue}
-										onChange={(_, editor) => setQuestionValue(editor.getData())}
+										data={questionValue.data}
+										onChange={(_, editor) => {
+											const data = editor.getData();
+											setQuestionValue({ data });
+										}}
 									/>
 									<InputGroup
 										className={
@@ -231,6 +285,7 @@ const AddAct = () => {
 										editorplaceholder="Start typing here..."
 										editor={ClassicEditor}
 										config={{
+											extraPlugins: [(e) => CustomUploadAdapterPlugin(e, 'question_description')],
 											toolbar: {
 												items: [
 													'heading',
@@ -249,8 +304,14 @@ const AddAct = () => {
 											},
 											removePlugins: ['Title'],
 										}}
-										data={editorValue}
-										onChange={(_, editor) => setEditorValue(editor.getData())}
+										// data={editorValue}
+										// onChange={(_, editor) => setEditorValue(editor.getData())}
+										data={editorValue.data}
+										// onChange={(_, editor) => setQuestionValue(editor.getData())}
+										onChange={(_, editor) => {
+											const data = editor.getData();
+											setEditorValue({ data });
+										}}
 									/>
 									<InputGroup
 										className={
@@ -328,6 +389,7 @@ const AddAct = () => {
 										editorplaceholder="Start typing here..."
 										editor={ClassicEditor}
 										config={{
+											extraPlugins: [(e) => CustomUploadAdapterPlugin(e, 'answer_description')],
 											toolbar: {
 												items: [
 													'heading',
@@ -346,8 +408,12 @@ const AddAct = () => {
 											},
 											removePlugins: ['Title'],
 										}}
-										data={answerValue}
-										onChange={(_, editor) => setAnswerValue(editor.getData())}
+										data={answerValue.data}
+										// onChange={(_, editor) => setAnswerValue(editor.getData())}
+										onChange={(_, editor) => {
+											const data = editor.getData();
+											setAnswerValue({ data });
+										}}
 									/>
 									<InputGroup
 										className={
@@ -383,6 +449,8 @@ const AddAct = () => {
 														<CKEditor
 															editor={ClassicEditor}
 															config={{
+																extraPlugins: [(e) => CustomUploadAdapterPlugin(e, index + 1)],
+
 																toolbar: {
 																	items: [
 																		'heading',

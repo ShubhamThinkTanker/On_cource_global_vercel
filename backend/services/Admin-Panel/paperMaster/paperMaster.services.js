@@ -2,7 +2,6 @@ const paperMasterModel = require("./paperMaster.model");
 
 exports.create = async (reqBody) => {
   try {
-    console.log("2222");
     const newPaperMaster = new paperMasterModel({
       paper_name: reqBody.paper_name,
       paper_description: reqBody.paper_description,
@@ -106,14 +105,13 @@ exports.delete = async (id) => {
 
 exports.isMultiDelete = async (id) => {
   try {
-    console.log(id, "ididi");
     const updatePaperMaster = await paperMasterModel.updateMany(
       { _id: id },
       { $set: { is_deleted: 1 } }
     );
     return updatePaperMaster;
   } catch (error) {
-    console.log("subject multi delete error : ", error);
+    console.log("paper multi delete error : ", error);
     return new Error(error);
   }
 };

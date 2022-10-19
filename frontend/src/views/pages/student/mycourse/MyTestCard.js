@@ -17,7 +17,8 @@ import {
 
 import { Link } from 'react-router-dom';
 import logoOncourse from '@src/assets/images/logo/favicon.ico';
-
+import { useDispatch } from 'react-redux';
+import { toggleSubjectCard } from '../../../../redux/subjectSlice';
 const MyTestCard = ({
 	testProgress,
 	stats,
@@ -31,19 +32,24 @@ const MyTestCard = ({
 	// const Button = () => {
 	// 	return <button onClick={() => console.log('button clicked')}>Go to</button>;
 	// };
-
+	const dispatch = useDispatch();
 	return (
 		<Col md="3">
 			<Card className="text-center subject-card mytest-card-main">
 				<CardHeader>
 					<div className="test-overlay"></div>
 					<div className="mytest-card-header">
-						<Button.Ripple color="primary" className="test-report-btn" outline>
+						{/* <Button.Ripple color="primary" className="my-test-button" outline>
 							{buttonReport}
-						</Button.Ripple>
+						</Button.Ripple> */}
 
-						{/* <span className="my-test-progress">{testProgress}</span> */}
-						<Button.Ripple color="primary" className="my-test-button" outline>
+						<span className="my-test-progress">{testProgress}</span>
+						<Button.Ripple
+							color="primary"
+							className="my-test-button"
+							outline
+							onClick={() => dispatch(toggleSubjectCard(true))}
+						>
 							Go to Test
 						</Button.Ripple>
 					</div>

@@ -9,6 +9,7 @@ import {
 	GetQuestionnaireRequest,
 	EditQuestionnaireRequest,
 	GetAllSubjectNameRequest,
+	GetAllPaperNameRequest,
 	GetAllActQuestionnaireRequest,
 } from '../../../../../redux/questionnaireSlice';
 
@@ -34,12 +35,13 @@ const EditAct = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	const { subjectData, editedQuesData, getByIdQuesData, error } = useSelector(
+	const { paperData, subjectData, editedQuesData, getByIdQuesData, error } = useSelector(
 		(state) => state.questionnaire
 	);
 	console.log(editedQuesData, 'editedQuesData');
 	const [count, setCount] = useState(1);
 	const [subject, setSubject] = useState('');
+	const [paper, setPaper] = useState('');
 	const [statusOption, setStatusOption] = useState(0);
 
 	const [optionValue, setOptionValue] = useState({});
@@ -49,6 +51,7 @@ const EditAct = () => {
 	const [answerValue, setAnswerValue] = useState('');
 
 	const [values, setValues] = useState({
+		paper_name: getByIdQuesData?.paper_name,
 		subject_name: getByIdQuesData?.subject_name,
 		is_type: getByIdQuesData?.is_type,
 		answer: getByIdQuesData?.answer,
@@ -77,6 +80,9 @@ const EditAct = () => {
 		dispatch(GetAllSubjectNameRequest());
 	}, []);
 	useEffect(() => {
+		dispatch(GetAllPaperNameRequest());
+	}, []);
+	useEffect(() => {
 		if (editedQuesData !== null) {
 			history.push('/admin/questionnaire/Act/list');
 		}
@@ -85,6 +91,7 @@ const EditAct = () => {
 	useEffect(() => {
 		setValues({
 			...values,
+			paper_name: getByIdQuesData?.paper_name,
 			subject_name: getByIdQuesData?.subject_name,
 			question: questionValue,
 			is_type: getByIdQuesData?.is_type,
@@ -95,6 +102,9 @@ const EditAct = () => {
 		});
 		{
 			getByIdQuesData && setSubject(getByIdQuesData.subject_name);
+		}
+		{
+			getByIdQuesData && setPaper(getByIdQuesData.paper_name);
 		}
 
 		{
@@ -155,6 +165,39 @@ const EditAct = () => {
 				<Form>
 					<CardBody>
 						<Row>
+							<Col md="6" sm="12">
+								<FormGroup className="mb-2">
+									<Label className="required" for="paper-select">
+										Paper
+									</Label>
+									<InputGroup
+										className={
+											error && error.paper_name
+												? 'is-invalid input-group-merge'
+												: 'input-group-merge mb-1'
+										}
+									></InputGroup>
+									<Select
+										id="paper-select"
+										name="paper"
+										options={paperData && paperData}
+										value={
+											getByIdQuesData && paperData ? paperData.filter((x) => x.value === paper) : []
+										}
+										isClearable={false}
+										className={error && error.paper_name ? 'is-invalid' : ''}
+										classNamePrefix="select"
+										onChange={(e) => {
+											setSubject(e.value);
+											setValues({ ...values, paper_name: e.value });
+										}}
+										style={{ borderLeft: 'none' }}
+									/>
+									{error && error.paper_name ? (
+										<small className="error">{error.paper_name}</small>
+									) : null}
+								</FormGroup>
+							</Col>
 							<Col md="6" sm="12">
 								<FormGroup className="mb-2">
 									<Label className="required" for="subject-select">

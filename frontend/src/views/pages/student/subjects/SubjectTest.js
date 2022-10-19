@@ -6,13 +6,12 @@ import SubjectCard from '../components/SubjectCard';
 import PracticeTestList from '../components/PracticeTestList';
 import { GetAllSubjectRequest } from '../../../../redux/subjectSlice';
 import MyTestCard from '../mycourse/MyTestCard';
-
+import { toggleSubjectCard } from '../../../../redux/subjectSlice';
 const SubjectTest = () => {
 	const [isRowVisible, setIsRowVisible] = useState(false);
 	const [isSubjectRowVisible, setIsSubjectRowVisible] = useState(false);
 	const dispatch = useDispatch();
-	const { subjectData } = useSelector((state) => state?.subject);
-
+	const { subjectData, isSubjectCardOpen } = useSelector((state) => state?.subject);
 	useEffect(() => {
 		dispatch(GetAllSubjectRequest());
 	}, []);
@@ -35,6 +34,7 @@ const SubjectTest = () => {
 								onClick={() => {
 									setIsRowVisible(true);
 									setIsSubjectRowVisible(false);
+									dispatch(toggleSubjectCard(false));
 								}}
 							>
 								Full Course Test Start
@@ -47,6 +47,7 @@ const SubjectTest = () => {
 								onClick={() => {
 									setIsSubjectRowVisible(true);
 									setIsRowVisible(false);
+									dispatch(toggleSubjectCard(false));
 								}}
 							>
 								Select Subject & Start Test
@@ -56,21 +57,25 @@ const SubjectTest = () => {
 
 					{isRowVisible && (
 						<Row>
-							{/* <Col xl="6" md="8" sm="12">
-								<SubjectCard
-									stats="Full Course Test Start"
-									statTitle="The section consists of many questions"
+							{isSubjectCardOpen && (
+								<Col xl="6" md="8" sm="12">
+									<SubjectCard
+										stats="Full Course Test Start"
+										statTitle="The section consists of many questions"
+										isRowVisible={isRowVisible}
+										icon="download.jpeg"
+										// isSubjectRowVisible={isSubjectRowVisible}
+									/>
+								</Col>
+							)}
+							{!isSubjectCardOpen && (
+								<MyTestCard
+									testProgress="Progress 0%"
+									stats="Act Test 19"
+									statTitle="by oncourse global"
 									isRowVisible={isRowVisible}
-									icon="download.jpeg"
-									// isSubjectRowVisible={isSubjectRowVisible}
-								/> */}
-							<MyTestCard
-								testProgress="Progress 0%"
-								stats="Act Test 19"
-								statTitle="by oncourse global"
-								isRowVisible={isRowVisible}
-							/>
-							{/* </Col> */}
+								/>
+							)}
 						</Row>
 					)}
 
@@ -79,21 +84,25 @@ const SubjectTest = () => {
 							{subjectData &&
 								subjectData['Subject_Details'].map((e) => (
 									<>
-										{/* <Col xl="6" md="8" sm="12">
-											<SubjectCard
-												icon={e.subject_image}
-												stats={e.subject_name}
-												statTitle="The section consists of many questions"
+										{isSubjectCardOpen && (
+											<Col xl="6" md="8" sm="12">
+												<SubjectCard
+													icon={e.subject_image}
+													stats={e.subject_name}
+													statTitle="The section consists of many questions"
+													isSubjectRowVisible={isSubjectRowVisible}
+													// isRowVisible={isRowVisible}
+												/>
+											</Col>
+										)}
+										{!isSubjectCardOpen && (
+											<MyTestCard
+												testProgress="Progress 0%"
+												stats="Act Test 19"
+												statTitle="by oncourse global"
 												isSubjectRowVisible={isSubjectRowVisible}
-												// isRowVisible={isRowVisible}
 											/>
-										</Col> */}
-										<MyTestCard
-											testProgress="Progress 0%"
-											stats="Act Test 19"
-											statTitle="by oncourse global"
-											isSubjectRowVisible={isSubjectRowVisible}
-										/>
+										)}
 									</>
 								))}
 						</Row>

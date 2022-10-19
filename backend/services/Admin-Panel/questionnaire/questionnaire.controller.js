@@ -24,8 +24,9 @@ module.exports = {
         });
       }
       var { errors, isValid } = validateQuestionnaire(req.body);
-      var paperId = req.query.paper_name;
 
+      var paperId = req.body.paper_name;
+      console.log(paperId);
 
       var paperData = await paperModel.findOne({ paper_name: paperId });
       console.log(paperData, ":paperData");
@@ -178,9 +179,10 @@ module.exports = {
 
       let filter_value = req.query.filter_value || "";
       let isActive = req.query.isActive || "";
+      let paperName = req.query.paper_name || "";
+
       // let findSubjectWise = { }
 
-      console.log(filter_value, ":filter_value");
       if (filter_value != "") {
         var regex = new RegExp(filter_value, "i");
         filter_value = {
@@ -194,7 +196,8 @@ module.exports = {
         await questionnaireService.allACTQuestionnaireGet(
           req.query,
           filter_value,
-          isActive
+          isActive,
+          paperName
         );
 
       let Total_active = await questionnaireModel
@@ -606,6 +609,36 @@ module.exports = {
       // }
     } catch (error) {
       console.log(error, "error");
+    }
+  },
+
+  uploadCkeditorImage: async (req, res, next) => {
+    try {
+      // if (!req.user) {
+      //   return res.json({
+      //     error: true,
+      //     statusCode: 401,
+      //     message: "Invalid  login",
+      //     errors: "Both can able to action on this module ",
+      //   });
+      // }
+      var editordata = req.body.dataCkeditor;
+      var imgTag;
+      if (req.body.dataCkeditor.includes("<img>")) {
+        imgTag = req.body.dataCkeditor.replace(
+          "<img>",
+          `<img src=http://localhost:5000/admin/upload/${req.file.filename} />`
+        );
+      }
+      console.log(imgTag, "fdsfsdfs");
+      return res.status(200).json({
+        image: req.file.filename,
+        imgData: imgTag,
+        message: "CALLED",
+      });
+    } catch (error) {
+      console.log(error, "--> Catch error");
+      return next(error);
     }
   },
 };

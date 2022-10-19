@@ -56,6 +56,12 @@ const QuestionnaireList = () => {
 
 	const columns = [
 		{
+			name: 'Paper',
+			selector: 'supaper_name',
+			sortable: true,
+			minWidth: '10%',
+		},
+		{
 			name: 'Subject',
 			selector: 'subject_name',
 			sortable: true,
@@ -65,7 +71,7 @@ const QuestionnaireList = () => {
 			name: 'Question',
 			selector: 'question',
 			sortable: true,
-			minWidth: '50%',
+			minWidth: '40%',
 			cell: (row) => (
 				<>
 					<p className=" mb-0">
@@ -77,19 +83,7 @@ const QuestionnaireList = () => {
 				</>
 			),
 		},
-		// {
-		// 	name: 'Type ',
-		// 	minWidth: '7%',
-		// 	selector: 'is_type',
-		// 	sortable: true,
-		// 	cell: (row) => {
-		// 		return (
-		// 			<Badge color={row.is_type === 'ACT' ? 'light-primary' : 'light-secondary'} pill>
-		// 				{row.is_type.toUpperCase()}
-		// 			</Badge>
-		// 		);
-		// 	},
-		// },
+
 		{
 			name: 'Answer ',
 			selector: 'answer',
